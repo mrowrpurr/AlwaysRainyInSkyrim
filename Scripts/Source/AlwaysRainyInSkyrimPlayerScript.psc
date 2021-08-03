@@ -14,14 +14,18 @@ int rainyWeather10 = 0x10a241
 int[] RainyWeathers
 
 Event OnInit()
-    Setup()
+    SetupAndStartRaining()
 EndEvent
 
 Event OnPlayerLoadGame()
-    Setup()
+    SetupAndStartRaining()
 EndEvent
 
-Function Setup()
+Event OnSleepStop(bool interrupted)
+    SetupRainyWeathersArray()
+EndEvent
+
+Function SetupAndStartRaining()
     SetupRainyWeathersArray()
     MakeItRain(rainNow = true)
     int minute = 60
