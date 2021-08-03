@@ -13,6 +13,8 @@ int rainyWeather10 = 0x10a241
 
 int[] RainyWeathers
 
+string SLEEP_WAIT_MENU_NAME = "Sleep/Wait Menu"
+
 Event OnInit()
     SetupAndStartRaining()
 EndEvent
@@ -21,11 +23,23 @@ Event OnPlayerLoadGame()
     SetupAndStartRaining()
 EndEvent
 
-Event OnSleepStop(bool interrupted)
-    SetupRainyWeathersArray()
+Event OnUpdate()
+    MakeItRain()
+EndEvent
+
+Event OnSleepStop(bool akInterrupted)
+    MakeItRain(rainNow = true)
+EndEvent
+
+Event OnMenuClose(string menuName)
+    if menuName == SLEEP_WAIT_MENU_NAME
+        MakeItRain(rainNow = true)
+    endIf
 EndEvent
 
 Function SetupAndStartRaining()
+    SubscribeToSleepEvent()
+    SubscribeToWaitEvent()
     SetupRainyWeathersArray()
     MakeItRain(rainNow = true)
     int minute = 60
@@ -46,6 +60,16 @@ Function SetupRainyWeathersArray()
     RainyWeathers[9] = rainyWeather10
 EndFunction
 
+Function SubscribeToSleepEvent()
+    UnregisterForSleep()
+    RegisterForSleep()
+EndFunction
+
+Function SubscribeToWaitEvent()
+    UnregisterForMenu(SLEEP_WAIT_MENU_NAME)
+    RegisterForMenu(SLEEP_WAIT_MENU_NAME)
+EndFunction
+
 Weather Function MakeItRain(bool rainNow = false)
     int randomWeatherIndex = Utility.RandomInt(0, RainyWeathers.Length - 1)
     int rainyWeatherID = RainyWeathers[randomWeatherIndex]
@@ -57,7 +81,3 @@ Weather Function MakeItRain(bool rainNow = false)
     endIf
     return rainyWeather
 EndFunction
-
-Event OnUpdate()
-    MakeItRain()
-EndEvent
