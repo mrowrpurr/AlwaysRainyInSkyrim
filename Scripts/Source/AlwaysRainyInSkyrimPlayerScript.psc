@@ -1,5 +1,7 @@
 Scriptname AlwaysRainyInSkyrimPlayerScript extends ReferenceAlias  
 
+float InstalledVersion = 1.0
+
 int rainyWeather1  = 0xd4886
 int rainyWeather2  = 0xc821f
 int rainyWeather3  = 0x10a23d
