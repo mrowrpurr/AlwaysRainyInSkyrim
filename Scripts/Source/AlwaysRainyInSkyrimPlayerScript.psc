@@ -33,6 +33,10 @@ Event OnSleepStop(bool akInterrupted)
     MakeItRain(rainNow = true)
 EndEvent
 
+Event OnPlayerFastTravelEnd(float hours)
+    MakeItRain(rainNow = true)
+EndEvent
+
 Event OnMenuClose(string menuName)
     if menuName == SLEEP_WAIT_MENU_NAME
         MakeItRain(rainNow = true)
